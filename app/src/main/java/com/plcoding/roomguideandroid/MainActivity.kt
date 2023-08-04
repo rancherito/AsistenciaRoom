@@ -13,6 +13,7 @@ import androidx.room.Room
 import com.plcoding.roomguideandroid.ui.theme.RoomGuideAndroidTheme
 import com.plcoding.roomguideandroid.views.AdminView
 import com.plcoding.roomguideandroid.views.CrearCursoView
+import com.plcoding.roomguideandroid.views.CrearDocenteView
 import com.plcoding.roomguideandroid.views.LoginView
 
 class MainActivity : ComponentActivity() {
@@ -65,6 +66,9 @@ class MainActivity : ComponentActivity() {
                     }
                     Ventana.CREAR_CURSO -> {
                         CrearCursoView(viewModel = viewModel)
+                    }
+                    Ventana.CREAR_DOCENTE -> {
+                        CrearDocenteView(viewModel = viewModel)
                     }
                     else -> {
                         Text(text = "No se ha cargado la ventana")

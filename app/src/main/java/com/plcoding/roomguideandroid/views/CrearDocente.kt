@@ -32,27 +32,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.plcoding.roomguideandroid.AsistenciaViewModel
 import com.plcoding.roomguideandroid.Curso
+import com.plcoding.roomguideandroid.Docente
 import com.plcoding.roomguideandroid.Ventana
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun CrearCursoView(
-    viewModel: AsistenciaViewModel,
-) {
-    val codigo = remember { mutableStateOf("") }
+fun CrearDocenteView(viewModel: AsistenciaViewModel) {
     val nombre = remember { mutableStateOf("") }
     val estaCreando = remember { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()
 
-    val cursos = viewModel.cursos.collectAsState(emptyList())
+    val docentes = viewModel.docentes.collectAsState(emptyList())
     scope.launch(Dispatchers.IO) {
-        viewModel.cargarCursos()
+        viewModel.cargarDocentes()
     }
+
 
     if (!estaCreando.value) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -72,7 +70,7 @@ fun CrearCursoView(
                         Icon(Icons.Filled.Home,null)
                     }
                     Text(
-                        "Control Cursos",
+                        "Control Docentes",
                         style = MaterialTheme.typography.h5,
                         fontWeight = FontWeight.Bold
                     )
@@ -81,17 +79,26 @@ fun CrearCursoView(
                             estaCreando.value = true
                         }
                     ) {
-                        Text("Crear Curso")
+                        Text("Crear")
                     }
                 }
             }
-
-            items(cursos.value) { curso ->
-                CursoCard(curso)
+            item{
+                if (docentes.value.isEmpty()) {
+                    Text(
+                        text = "No hay docentes",
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.h6
+                    )
+                }
+            }
+            items(docentes.value) { doc ->
+                DocenteCard(doc)
             }
         }
 
-    } else {
+    }
+    else {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -106,7 +113,7 @@ fun CrearCursoView(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    "Crear curso",
+                    "Crear docente",
                     style = MaterialTheme.typography.h5,
                     fontWeight = FontWeight.Bold
                 )
@@ -122,16 +129,6 @@ fun CrearCursoView(
 
 
             OutlinedTextField(
-                value = codigo.value,
-                onValueChange = { codigo.value = it },
-                label = { Text("Código") },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            OutlinedTextField(
                 value = nombre.value,
                 onValueChange = { nombre.value = it },
                 label = { Text("Nombre") },
@@ -144,30 +141,23 @@ fun CrearCursoView(
             Button(
                 onClick = {
 
-                    val curso = Curso(
-                        codigo = codigo.value,
-                        nombre = nombre.value,
-                        curso_id = UUID.randomUUID().toString()
-                    )
-                    viewModel.agregarCurso(curso)
-                    codigo.value = ""
+                    val docente = Docente(UUID.randomUUID().toString(), nombre.value)
+                    viewModel.agregarDocente(docente)
                     nombre.value = ""
                     estaCreando.value = false
 
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Crear Curso")
+                Text("GUARDAR")
             }
         }
     }
-
 }
 
-
-
+//DocenteCard
 @Composable
-private fun CursoCard(curso: Curso) {
+private fun DocenteCard(docente: Docente) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -181,14 +171,9 @@ private fun CursoCard(curso: Curso) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = curso.nombre,
+                text = docente.nombre,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
-            )
-            Text(
-                text = curso.codigo,
-                fontWeight = FontWeight.Light,
-                color = Color.Gray
             )
         }
     }

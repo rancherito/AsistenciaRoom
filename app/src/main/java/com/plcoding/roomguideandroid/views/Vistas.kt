@@ -31,84 +31,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.UUID
 
-@SuppressLint("CoroutineCreationDuringComposition")
-@Composable
-fun CrearCursoView(
-    viewModel: AsistenciaViewModel,
-) {
-    val codigo = remember { mutableStateOf("") }
-    val nombre = remember { mutableStateOf("") }
-
-
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-
-    val cursos = viewModel.cursos.collectAsState(emptyList())
-    scope.launch(Dispatchers.IO) {
-        viewModel.cargarCursos()
-    }
-
-    Column {
-        //listar cursos usando lazyColumn
-        LazyColumn(modifier = Modifier.height(300.dp)) {
-            items(cursos.value) {
-                Text(text = "${it.codigo} ${it.nombre}")
-            }
-        }
-
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("Crear curso", style = MaterialTheme.typography.h5)
-            Spacer(modifier = Modifier.height(32.dp))
-
-
-            OutlinedTextField(
-                value = codigo.value,
-                onValueChange = { codigo.value = it },
-                label = { Text("Código") },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            OutlinedTextField(
-                value = nombre.value,
-                onValueChange = { nombre.value = it },
-                label = { Text("Nombre") },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = {
-
-                    val curso = Curso(
-                        codigo = codigo.value,
-                        nombre = nombre.value,
-                        curso_id = UUID.randomUUID().toString()
-                    )
-                    viewModel.agregarCurso(curso)
-                    //limpiar campos
-                    codigo.value = ""
-                    nombre.value = ""
-
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Crear Curso")
-            }
-        }
-    }
-}
 
 
 @Composable
@@ -141,17 +63,3 @@ fun CrearAlumnoView() {
     }
 }
 
-@Composable
-fun CrearDocenteView() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Button(onClick = { /* Aquí puedes manejar el evento de crear docente */ }) {
-            Text("Crear Docente")
-        }
-    }
-}

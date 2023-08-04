@@ -22,11 +22,43 @@ class AsistenciaViewModel(
     private val asistenciaDAO: AsistenciaDAO
 ) : ViewModel() {
 
+
+    //GESTOR DE CURSOS
+    //Lista privada de cursos
     private val _cursos = MutableStateFlow(emptyList<Curso>())
+    //lista publica de cursos de solo lectura
     val cursos = _cursos.asStateFlow()
+    //metodo para agregar un curso
+    fun agregarCurso(curso: Curso) {
+        viewModelScope.launch(Dispatchers.IO) {
+            cursoDAO.insertAll(curso)
+            _cursos.value = cursoDAO.getAll()
+        }
+    }
+    fun cargarCursos() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _cursos.value = cursoDAO.getAll()
+        }
+    }
 
 
-
+    //GESTOR DE DOCENTES
+    //Lista privada de docentes
+    private val _docentes = MutableStateFlow(emptyList<Docente>())
+    //lista publica de docentes de solo lectura
+    val docentes = _docentes.asStateFlow()
+    //metodo para agregar un docente
+    fun agregarDocente(docente: Docente) {
+        viewModelScope.launch(Dispatchers.IO) {
+            docenteDAO.insertAll(docente)
+            _docentes.value = docenteDAO.getAll()
+        }
+    }
+    fun cargarDocentes() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _docentes.value = docenteDAO.getAll()
+        }
+    }
 
 
 
@@ -61,97 +93,5 @@ class AsistenciaViewModel(
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ContactState())
 
-    /*
-        fun onEvent(event: ContactEvent) {
-            when (event) {
-                is ContactEvent.DeleteContact -> {
-                    viewModelScope.launch {
-                        contactDao.deleteContact(event.contact)
-                    }
-                }
 
-                ContactEvent.HideDialog -> {
-                    _state.update {
-                        it.copy(
-                            isAddingContact = false
-                        )
-                    }
-                }
-
-                ContactEvent.SaveContact -> {
-                    val firstName = state.value.firstName
-                    val lastName = state.value.lastName
-                    val phoneNumber = state.value.phoneNumber
-
-                    if (firstName.isBlank() || lastName.isBlank() || phoneNumber.isBlank()) {
-                        return
-                    }
-
-                    val contact = Contact(
-                        firstName = firstName,
-                        lastName = lastName,
-                        phoneNumber = phoneNumber
-                    )
-                    viewModelScope.launch {
-                        contactDao.upsertContact(contact)
-                    }
-                    _state.update {
-                        it.copy(
-                            isAddingContact = false,
-                            firstName = "",
-                            lastName = "",
-                            phoneNumber = ""
-                        )
-                    }
-                }
-
-                is ContactEvent.SetFirstName -> {
-                    _state.update {
-                        it.copy(
-                            firstName = event.firstName
-                        )
-                    }
-                }
-
-                is ContactEvent.SetLastName -> {
-                    _state.update {
-                        it.copy(
-                            lastName = event.lastName
-                        )
-                    }
-                }
-
-                is ContactEvent.SetPhoneNumber -> {
-                    _state.update {
-                        it.copy(
-                            phoneNumber = event.phoneNumber
-                        )
-                    }
-                }
-
-                ContactEvent.ShowDialog -> {
-                    _state.update {
-                        it.copy(
-                            isAddingContact = true
-                        )
-                    }
-                }
-
-                is ContactEvent.SortContacts -> {
-                    _sortType.value = event.sortType
-                }
-            }
-        }
-    */
-    fun agregarCurso(curso: Curso) {
-        viewModelScope.launch(Dispatchers.IO) {
-            cursoDAO.insertAll(curso)
-            _cursos.value = cursoDAO.getAll()
-        }
-    }
-    fun cargarCursos() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _cursos.value = cursoDAO.getAll()
-        }
-    }
 }
