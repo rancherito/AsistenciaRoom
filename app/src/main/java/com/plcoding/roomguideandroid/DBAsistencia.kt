@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.plcoding.roomguideandroid.dao.AlumnoDAO
 import com.plcoding.roomguideandroid.dao.ContactDao
+import com.plcoding.roomguideandroid.dao.DocenteDAO
 import com.plcoding.roomguideandroid.dao.SeccionDAO
 
 @Database(

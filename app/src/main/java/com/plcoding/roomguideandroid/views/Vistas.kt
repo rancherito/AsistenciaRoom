@@ -48,18 +48,3 @@ fun CrearSeccionView() {
     }
 }
 
-@Composable
-fun CrearAlumnoView() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Button(onClick = { /* Aquí puedes manejar el evento de crear alumno */ }) {
-            Text("Crear Alumno")
-        }
-    }
-}
-

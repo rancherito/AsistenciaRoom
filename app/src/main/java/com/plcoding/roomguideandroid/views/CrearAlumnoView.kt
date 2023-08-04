@@ -30,33 +30,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.plcoding.roomguideandroid.Alumno
 import com.plcoding.roomguideandroid.AsistenciaViewModel
-import com.plcoding.roomguideandroid.Curso
 import com.plcoding.roomguideandroid.Ventana
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun CrearCursoView(
-    viewModel: AsistenciaViewModel,
-) {
+fun CrearAlumnoView(viewModel: AsistenciaViewModel) {
     val codigo = remember { mutableStateOf("") }
     val nombre = remember { mutableStateOf("") }
     val estaCreando = remember { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()
 
-    val cursos = viewModel.cursos.collectAsState(emptyList())
+    val alumnos = viewModel.alumnos.collectAsState(emptyList())
     scope.launch(Dispatchers.IO) {
-        viewModel.cargarCursos()
+        viewModel.cargarAlumnos()
     }
 
     if (!estaCreando.value) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            //agregar un titulo y un boton crear cursos dentro de un row
+
             item {
                 Row(
                     modifier = Modifier
@@ -72,7 +69,7 @@ fun CrearCursoView(
                         Icon(Icons.Filled.Home,null)
                     }
                     Text(
-                        "Control Cursos",
+                        "Control Alumnos",
                         style = MaterialTheme.typography.h5,
                         fontWeight = FontWeight.Bold
                     )
@@ -81,25 +78,27 @@ fun CrearCursoView(
                             estaCreando.value = true
                         }
                     ) {
-                        Text("Crear Curso")
+                        Text("Crear")
                     }
                 }
             }
             item{
-                if (cursos.value.isEmpty()) {
+                if (alumnos.value.isEmpty()) {
                     Text(
-                        text = "No hay cursos",
+                        text = "No hay alumnos",
                         modifier = Modifier.padding(16.dp),
                         style = MaterialTheme.typography.h6
                     )
                 }
             }
-            items(cursos.value) { curso ->
-                CursoCard(curso)
+
+            items(alumnos.value) { al ->
+                AlumnoCard(al)
             }
         }
 
-    } else {
+    }
+    else {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -152,12 +151,12 @@ fun CrearCursoView(
             Button(
                 onClick = {
 
-                    val curso = Curso(
+                    val alumno = Alumno(
                         codigo = codigo.value,
-                        nombre = nombre.value,
-                        curso_id = UUID.randomUUID().toString()
+                        nombres = nombre.value,
+                        alumno_id = UUID.randomUUID().toString()
                     )
-                    viewModel.agregarCurso(curso)
+                    viewModel.agregarAlumno(alumno)
                     codigo.value = ""
                     nombre.value = ""
                     estaCreando.value = false
@@ -169,13 +168,11 @@ fun CrearCursoView(
             }
         }
     }
-
 }
 
 
-
 @Composable
-private fun CursoCard(curso: Curso) {
+private fun AlumnoCard(alumno: Alumno) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -189,12 +186,12 @@ private fun CursoCard(curso: Curso) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = curso.nombre,
+                text = alumno.nombres,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
             Text(
-                text = curso.codigo,
+                text = alumno.codigo,
                 fontWeight = FontWeight.Light,
                 color = Color.Gray
             )

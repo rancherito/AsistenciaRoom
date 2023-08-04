@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import com.plcoding.roomguideandroid.ui.theme.RoomGuideAndroidTheme
 import com.plcoding.roomguideandroid.views.AdminView
+import com.plcoding.roomguideandroid.views.CrearAlumnoView
 import com.plcoding.roomguideandroid.views.CrearCursoView
 import com.plcoding.roomguideandroid.views.CrearDocenteView
 import com.plcoding.roomguideandroid.views.LoginView
@@ -69,6 +70,9 @@ class MainActivity : ComponentActivity() {
                     }
                     Ventana.CREAR_DOCENTE -> {
                         CrearDocenteView(viewModel = viewModel)
+                    }
+                    Ventana.CREAR_ALUMNO -> {
+                        CrearAlumnoView(viewModel = viewModel)
                     }
                     else -> {
                         Text(text = "No se ha cargado la ventana")

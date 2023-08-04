@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plcoding.roomguideandroid.dao.AlumnoDAO
 import com.plcoding.roomguideandroid.dao.ContactDao
+import com.plcoding.roomguideandroid.dao.DocenteDAO
 import com.plcoding.roomguideandroid.dao.SeccionDAO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -57,6 +58,25 @@ class AsistenciaViewModel(
     fun cargarDocentes() {
         viewModelScope.launch(Dispatchers.IO) {
             _docentes.value = docenteDAO.getAll()
+        }
+    }
+
+    //GESTOR DE ALUMNOS
+    //Lista privada de alumnos
+    private val _alumnos = MutableStateFlow(emptyList<Alumno>())
+    //lista publica de alumnos de solo lectura
+    val alumnos = _alumnos.asStateFlow()
+
+    //metodo para agregar un alumno
+    fun agregarAlumno(alumno: Alumno) {
+        viewModelScope.launch(Dispatchers.IO) {
+            alumnoDAO.insertAll(alumno)
+            _alumnos.value = alumnoDAO.getAll()
+        }
+    }
+    fun cargarAlumnos() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _alumnos.value = alumnoDAO.getAll()
         }
     }
 
