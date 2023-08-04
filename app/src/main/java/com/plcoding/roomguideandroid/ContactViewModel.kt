@@ -2,6 +2,7 @@ package com.plcoding.roomguideandroid
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.plcoding.roomguideandroid.dao.ContactDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

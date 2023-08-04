@@ -1,6 +1,7 @@
-package com.plcoding.roomguideandroid
+package com.plcoding.roomguideandroid.dao
 
 import androidx.room.*
+import com.plcoding.roomguideandroid.Contact
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -11,3 +11,45 @@ data class Contact(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 )
+
+
+@Entity
+data class Curso(
+    @PrimaryKey val curso_id: String,
+    val codigo: String,
+    val nombre: String
+)
+@Entity
+data class Seccion(
+    @PrimaryKey val seccion_id: String,
+    val curso_id: Int,
+    val seccion_cod: String
+)
+@Entity
+data class SeccionDocente(
+    @PrimaryKey val seccion_id: String,
+    val docente_id: String
+)
+@Entity
+data class Docente(
+    @PrimaryKey val docente_id: String,
+    val nombre: String
+)
+@Entity
+data class Alumno(
+    @PrimaryKey val alumno_id: String,
+    val nombres: String,
+    val codigo: String
+)
+@Entity
+data class SeccionAlumno(
+    @PrimaryKey val seccion_alumno_id: String,
+    val alumno_id: String
+)
+@Entity
+data class Asistencia(
+    val horas: String,
+    val fecha: String,
+    val seccion_alumno_id: String,
+    @PrimaryKey val asistencia_id: String
+)
