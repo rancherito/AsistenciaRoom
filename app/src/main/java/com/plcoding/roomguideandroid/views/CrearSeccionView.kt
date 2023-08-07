@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.Button
 import androidx.compose.material.Card
-import androidx.compose.material.Checkbox
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -37,14 +36,14 @@ import androidx.compose.ui.unit.dp
 import com.plcoding.roomguideandroid.AsistenciaViewModel
 import com.plcoding.roomguideandroid.Seccion
 import com.plcoding.roomguideandroid.Ventana
-import com.plcoding.roomguideandroid.dao.CursoSecciones
+import com.plcoding.roomguideandroid.dao.CursoSeccionesModel
 import java.util.UUID
 
 
-enum class CrearDocenteEnum {
+enum class EstadoCreacion {
     LISTA,
-    SELECIONAR_CURSO,
-    SELECIONAR_SECCION,
+    SELECCIONAR,
+    CREAR,
 }
 
 @Composable
@@ -55,7 +54,7 @@ fun CrearSeccionView(viewModel: AsistenciaViewModel) {
 
     val cursos = viewModel.cursos.collectAsState(emptyList())
     val cursoSecciones = viewModel.cursoSecciones.collectAsState(emptyList())
-    val estado = remember { mutableStateOf(CrearDocenteEnum.LISTA) }
+    val estado = remember { mutableStateOf(EstadoCreacion.LISTA) }
 
     val curso_id_actual = remember { mutableStateOf("") }
 
@@ -65,7 +64,7 @@ fun CrearSeccionView(viewModel: AsistenciaViewModel) {
 
     viewModel.cargarCursos()
     viewModel.cargarSecciones()
-    if (estado.value == CrearDocenteEnum.LISTA) {
+    if (estado.value == EstadoCreacion.LISTA) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             //agregar un titulo y un boton crear cursos dentro de un row
             item {
@@ -89,7 +88,7 @@ fun CrearSeccionView(viewModel: AsistenciaViewModel) {
                     )
                     Button(
                         onClick = {
-                            estado.value = CrearDocenteEnum.SELECIONAR_CURSO
+                            estado.value = EstadoCreacion.SELECCIONAR
                         }
                     ) {
                         Text("Crear")
@@ -109,7 +108,7 @@ fun CrearSeccionView(viewModel: AsistenciaViewModel) {
                 SeccionCard(sec)
             }
         }
-    } else if (estado.value == CrearDocenteEnum.SELECIONAR_CURSO) {
+    } else if (estado.value == EstadoCreacion.SELECCIONAR) {
 
         Column(
             modifier = Modifier
@@ -132,7 +131,7 @@ fun CrearSeccionView(viewModel: AsistenciaViewModel) {
                 )
                 Button(
                     onClick = {
-                        estado.value = CrearDocenteEnum.LISTA
+                        estado.value = EstadoCreacion.LISTA
                     }
                 ) {
                     Text("Regresar")
@@ -176,7 +175,7 @@ fun CrearSeccionView(viewModel: AsistenciaViewModel) {
                             Text(curso.codigo)
                             Button(onClick = {
                                 curso_id_actual.value = curso.curso_id
-                                estado.value = CrearDocenteEnum.SELECIONAR_SECCION
+                                estado.value = EstadoCreacion.CREAR
                             }) {
                                 Icon(Icons.Filled.Add, contentDescription = null)
                             }
@@ -187,7 +186,7 @@ fun CrearSeccionView(viewModel: AsistenciaViewModel) {
             }
 
         }
-    } else if (estado.value == CrearDocenteEnum.SELECIONAR_SECCION) {
+    } else if (estado.value == EstadoCreacion.CREAR) {
 
         Column(modifier = Modifier
             .fillMaxWidth()
@@ -208,7 +207,7 @@ fun CrearSeccionView(viewModel: AsistenciaViewModel) {
                 )
                 Button(
                     onClick = {
-                        estado.value = CrearDocenteEnum.SELECIONAR_CURSO
+                        estado.value = EstadoCreacion.SELECCIONAR
                     }
                 ) {
                     Text("Regresar")
@@ -249,7 +248,7 @@ fun CrearSeccionView(viewModel: AsistenciaViewModel) {
                         seccion_id = UUID.randomUUID().toString()
                     )
                 )
-                estado.value = CrearDocenteEnum.LISTA
+                estado.value = EstadoCreacion.LISTA
             }) {
                 Text("Crear")
             }
@@ -259,7 +258,7 @@ fun CrearSeccionView(viewModel: AsistenciaViewModel) {
 }
 
 @Composable
-private fun SeccionCard(cursoSecciones: CursoSecciones) {
+private fun SeccionCard(cursoSeccionesModel: CursoSeccionesModel) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -273,17 +272,17 @@ private fun SeccionCard(cursoSecciones: CursoSecciones) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = cursoSecciones.codigo,
+                text = cursoSeccionesModel.codigo,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
             Text(
-                text = cursoSecciones.nombre,
+                text = cursoSeccionesModel.nombre,
                 fontWeight = FontWeight.Light,
                 color = Color.Gray
             )
             Text(
-                text = cursoSecciones.seccion_codigo,
+                text = cursoSeccionesModel.seccion_codigo,
                 fontWeight = FontWeight.Light,
                 color = Color.Gray
             )

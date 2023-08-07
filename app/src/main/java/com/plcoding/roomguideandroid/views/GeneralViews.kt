@@ -73,7 +73,9 @@ fun AdminView(viewModel: AsistenciaViewModel) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = {  },
+            onClick = {
+                viewModel.cambiarVentana(Ventana.CREAR_SECCION_DOCENTE)
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Agregar Docente Sección")
@@ -81,7 +83,9 @@ fun AdminView(viewModel: AsistenciaViewModel) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = {  },
+            onClick = {
+                viewModel.cambiarVentana(Ventana.CREAR_MATRICULA_ALUMNO)
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Matricular Alumno")

@@ -14,7 +14,9 @@ import com.plcoding.roomguideandroid.ui.theme.RoomGuideAndroidTheme
 import com.plcoding.roomguideandroid.views.AdminView
 import com.plcoding.roomguideandroid.views.CrearAlumnoView
 import com.plcoding.roomguideandroid.views.CrearCursoView
+import com.plcoding.roomguideandroid.views.CrearDocenteSeccionView
 import com.plcoding.roomguideandroid.views.CrearDocenteView
+import com.plcoding.roomguideandroid.views.CrearMatriculaView
 import com.plcoding.roomguideandroid.views.CrearSeccionView
 import com.plcoding.roomguideandroid.views.LoginView
 
@@ -77,6 +79,12 @@ class MainActivity : ComponentActivity() {
                     }
                     Ventana.CREAR_SECCION -> {
                         CrearSeccionView(viewModel = viewModel)
+                    }
+                    Ventana.CREAR_SECCION_DOCENTE -> {
+                        CrearDocenteSeccionView(viewModel = viewModel)
+                    }
+                    Ventana.CREAR_MATRICULA_ALUMNO -> {
+                       CrearMatriculaView(viewModel = viewModel)
                     }
                     else -> {
                         Text(text = "No se ha cargado la ventana")

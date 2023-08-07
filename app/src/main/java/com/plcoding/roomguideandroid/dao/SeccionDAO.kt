@@ -13,7 +13,7 @@ interface SeccionDAO {
         FROM Seccion s
         JOIN Curso c ON s.curso_id = c.curso_id
         """)
-    fun cursoSeccionesGetAll(): List<CursoSecciones>
+    fun cursoSeccionesGetAll(): List<CursoSeccionesModel>
 
     @Query("SELECT * FROM Seccion")
     fun getAll(): List<Seccion>
@@ -25,7 +25,7 @@ interface SeccionDAO {
     fun delete(seccion: Seccion)
 }
 
-data class CursoSecciones(
+data class CursoSeccionesModel(
     val seccion_id: String,
     val curso_id: String,
     val seccion_codigo: String,

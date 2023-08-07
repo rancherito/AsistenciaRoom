@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.plcoding.roomguideandroid.dao.AlumnoDAO
 import com.plcoding.roomguideandroid.dao.ContactDao
 import com.plcoding.roomguideandroid.dao.DocenteDAO
-import com.plcoding.roomguideandroid.dao.CursoSecciones
+import com.plcoding.roomguideandroid.dao.CursoSeccionesModel
 import com.plcoding.roomguideandroid.dao.SeccionDAO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -84,23 +84,47 @@ class AsistenciaViewModel(
     //GESTOR DE SECCIONES
     //Lista privada de secciones
     private val _secciones = MutableStateFlow(emptyList<Seccion>())
-    private val _cursoSecciones = MutableStateFlow(emptyList<CursoSecciones>())
+    private val _cursoSeccionesModel = MutableStateFlow(emptyList<CursoSeccionesModel>())
     //lista publica de secciones de solo lectura
     val secciones = _secciones.asStateFlow()
-    val cursoSecciones = _cursoSecciones.asStateFlow()
+    val cursoSecciones = _cursoSeccionesModel.asStateFlow()
 
     //metodo para agregar una seccion
     fun agregarSeccion(seccion: Seccion) {
         viewModelScope.launch(Dispatchers.IO) {
             seccionDAO.insertAll(seccion)
             _secciones.value = seccionDAO.getAll()
-            _cursoSecciones.value = seccionDAO.cursoSeccionesGetAll()
+            _cursoSeccionesModel.value = seccionDAO.cursoSeccionesGetAll()
         }
     }
     fun cargarSecciones() {
         viewModelScope.launch(Dispatchers.IO) {
             _secciones.value = seccionDAO.getAll()
-            _cursoSecciones.value = seccionDAO.cursoSeccionesGetAll()
+            _cursoSeccionesModel.value = seccionDAO.cursoSeccionesGetAll()
+        }
+    }
+
+    //GESTOR DE SECCIONES DOCENTES
+    //Lista privada de secciones docentes
+    private val _seccionesDocentes = MutableStateFlow(emptyList<SeccionDocente>())
+    private val _seccionesDocentesModel = MutableStateFlow(emptyList<SeccionDocenteModel>())
+
+    //lista publica de secciones docentes de solo lectura
+    val seccionesDocentes = _seccionesDocentes.asStateFlow()
+    val seccionesDocentesModel = _seccionesDocentesModel.asStateFlow()
+
+    //metodo para agregar una seccion docente
+    fun agregarSeccionDocente(seccionDocente: SeccionDocente) {
+        viewModelScope.launch(Dispatchers.IO) {
+            seccionDocenteDAO.insertAll(seccionDocente)
+            _seccionesDocentes.value = seccionDocenteDAO.getAll()
+            _seccionesDocentesModel.value = seccionDocenteDAO.seccionDocenteModelGetAll()
+        }
+    }
+    fun cargarSeccionesDocentes() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _seccionesDocentes.value = seccionDocenteDAO.getAll()
+            _seccionesDocentesModel.value = seccionDocenteDAO.seccionDocenteModelGetAll()
         }
     }
 

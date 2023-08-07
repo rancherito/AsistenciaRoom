@@ -16,5 +16,7 @@ class Ventana {
         const val CREAR_SECCION = 4
         const val CREAR_ALUMNO = 5
         const val CREAR_DOCENTE = 6
+        const val CREAR_SECCION_DOCENTE = 7
+        const val CREAR_MATRICULA_ALUMNO = 8
     }
 }
