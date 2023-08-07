@@ -22,8 +22,8 @@ data class Curso(
 @Entity
 data class Seccion(
     @PrimaryKey val seccion_id: String,
-    val curso_id: Int,
-    val seccion_cod: String
+    val curso_id: String,
+    val seccion_codigo: String
 )
 @Entity
 data class SeccionDocente(

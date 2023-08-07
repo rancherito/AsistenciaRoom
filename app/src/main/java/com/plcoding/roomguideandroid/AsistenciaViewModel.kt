@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.plcoding.roomguideandroid.dao.AlumnoDAO
 import com.plcoding.roomguideandroid.dao.ContactDao
 import com.plcoding.roomguideandroid.dao.DocenteDAO
+import com.plcoding.roomguideandroid.dao.CursoSecciones
 import com.plcoding.roomguideandroid.dao.SeccionDAO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -77,6 +78,29 @@ class AsistenciaViewModel(
     fun cargarAlumnos() {
         viewModelScope.launch(Dispatchers.IO) {
             _alumnos.value = alumnoDAO.getAll()
+        }
+    }
+
+    //GESTOR DE SECCIONES
+    //Lista privada de secciones
+    private val _secciones = MutableStateFlow(emptyList<Seccion>())
+    private val _cursoSecciones = MutableStateFlow(emptyList<CursoSecciones>())
+    //lista publica de secciones de solo lectura
+    val secciones = _secciones.asStateFlow()
+    val cursoSecciones = _cursoSecciones.asStateFlow()
+
+    //metodo para agregar una seccion
+    fun agregarSeccion(seccion: Seccion) {
+        viewModelScope.launch(Dispatchers.IO) {
+            seccionDAO.insertAll(seccion)
+            _secciones.value = seccionDAO.getAll()
+            _cursoSecciones.value = seccionDAO.cursoSeccionesGetAll()
+        }
+    }
+    fun cargarSecciones() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _secciones.value = seccionDAO.getAll()
+            _cursoSecciones.value = seccionDAO.cursoSeccionesGetAll()
         }
     }
 

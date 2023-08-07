@@ -70,6 +70,22 @@ fun AdminView(viewModel: AsistenciaViewModel) {
         ) {
             Text("Agregar secciones")
         }
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {  },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Agregar Docente Sección")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {  },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Matricular Alumno")
+        }
     }
 }
 

@@ -15,6 +15,7 @@ import com.plcoding.roomguideandroid.views.AdminView
 import com.plcoding.roomguideandroid.views.CrearAlumnoView
 import com.plcoding.roomguideandroid.views.CrearCursoView
 import com.plcoding.roomguideandroid.views.CrearDocenteView
+import com.plcoding.roomguideandroid.views.CrearSeccionView
 import com.plcoding.roomguideandroid.views.LoginView
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
         Room.databaseBuilder(
             applicationContext,
             DBAsistencia::class.java,
-            "asistencidb_02"
+            "asistencidb_03"
         ).build()
     }
     private val viewModel by viewModels<AsistenciaViewModel>(
@@ -74,16 +75,13 @@ class MainActivity : ComponentActivity() {
                     Ventana.CREAR_ALUMNO -> {
                         CrearAlumnoView(viewModel = viewModel)
                     }
+                    Ventana.CREAR_SECCION -> {
+                        CrearSeccionView(viewModel = viewModel)
+                    }
                     else -> {
                         Text(text = "No se ha cargado la ventana")
                     }
                 }
-
-
-
-
-                                //ContactScreen(state = state, onEvent = viewModel::onEvent)
-
 
             }
         }

@@ -31,7 +31,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.plcoding.roomguideandroid.AsistenciaViewModel
-import com.plcoding.roomguideandroid.Curso
 import com.plcoding.roomguideandroid.Docente
 import com.plcoding.roomguideandroid.Ventana
 import kotlinx.coroutines.Dispatchers
