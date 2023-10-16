@@ -1,5 +1,37 @@
 package com.app.taxi
 
+import com.app.taxi.models.Cliente
+import io.github.serpro69.kfaker.Faker
+import java.util.UUID
+
+class Utils{
+
+    companion object {
+        fun crearUsuarioAleatorio(): Cliente {
+            val faker = Faker()
+
+            val id = UUID.randomUUID().toString()
+            val name = faker.name.name()
+            val email = faker.internet.email()
+            val password = generatePassword(16)
+
+            return Cliente(
+                cliente_id = id,
+                nombre = name,
+                correo = email,
+                contraseña = password
+            )
+        }
+
+        fun generatePassword(length: Int = 10): String {
+            val allowedChars = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+            return (1..length)
+                .map { allowedChars.random() }
+                .joinToString("")
+        }
+    }
+}
+
 data class User(
     val user_id: Int,
     val usuario: String,
